@@ -43,19 +43,19 @@ export default function ProtectedPage() {
     };
 
     validateAndRedirect();
-  }, [router]);
+  }, [router, showToast]);
 
   useEffect(() => {
     if (!isValidating && apiKey) {
       showToast('API key validated successfully!', 'success');
     }
-  }, [isValidating]);
+  }, [isValidating, apiKey, showToast]);
 
   const handleCopyClick = async () => {
     try {
       await navigator.clipboard.writeText(apiKey);
       showToast('API key copied to clipboard!', 'success');
-    } catch (err) {
+    } catch (error) {
       showToast('Failed to copy API key to clipboard', 'error');
     }
   };

@@ -124,7 +124,7 @@ export default function Dashboard() {
     try {
       await navigator.clipboard.writeText(text);
       showToast('API key copied to clipboard!');
-    } catch (err) {
+    } catch (error) {
       showToast('Failed to copy to clipboard', 'error');
     }
   };
