@@ -39,7 +39,7 @@ export const ApiKeyRow = ({
               type="text"
               value={editName}
               onChange={(e) => onEditNameChange(e.target.value)}
-              className={`px-2 py-1 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none ${
+              className={`px-2 py-1 border rounded-md focus:ring-2 focus:ring-purple-300 focus:border-purple-300 outline-none ${
                 nameError ? 'border-red-500' : ''
               }`}
               autoFocus

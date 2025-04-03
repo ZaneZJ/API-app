@@ -4,9 +4,10 @@ import { HomeIcon, UserIcon, BeakerIcon, DocumentTextIcon, CodeBracketIcon, Book
 
 interface DashboardLayoutProps {
   children: ReactNode;
+  isModalOpen?: boolean;
 }
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+export default function DashboardLayout({ children, isModalOpen = false }: DashboardLayoutProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Load sidebar state
@@ -31,16 +32,18 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         } bg-white border-r border-gray-200 flex flex-col relative group transition-all duration-300 ease-in-out`}
       >
         {/* Toggle Button */}
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="absolute -right-3 top-8 bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100 transition-colors z-50"
-        >
-          {isCollapsed ? (
-            <ChevronRightIcon className="w-4 h-4 text-gray-500" />
-          ) : (
-            <ChevronLeftIcon className="w-4 h-4 text-gray-500" />
-          )}
-        </button>
+        {!isModalOpen && (
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="absolute -right-3 top-8 bg-white border border-gray-200 rounded-full p-1.5 hover:bg-gray-100 transition-colors z-50"
+          >
+            {isCollapsed ? (
+              <ChevronRightIcon className="w-4 h-4 text-gray-500" />
+            ) : (
+              <ChevronLeftIcon className="w-4 h-4 text-gray-500" />
+            )}
+          </button>
+        )}
 
         {/* Logo */}
         <div className={`p-6 transition-all duration-300 ${isCollapsed ? 'flex justify-center' : 'ml-5'}`}>

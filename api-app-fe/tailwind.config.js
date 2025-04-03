@@ -20,11 +20,22 @@ module.exports = {
         slideIn: {
           '0%': { opacity: '0', transform: 'translateX(-20px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' }
+        },
+        modalSlideIn: {
+          '0%': { 
+            opacity: '0',
+            transform: 'translate(-50%, -60%) scale(0.95)'
+          },
+          '100%': { 
+            opacity: '1',
+            transform: 'translate(0%, 0%) scale(1)'
+          }
         }
       },
       animation: {
         fadeIn: 'fadeIn 0.5s ease-out',
-        slideIn: 'slideIn 0.5s ease-out 0.1s'
+        slideIn: 'slideIn 0.5s ease-out 0.1s',
+        modalSlideIn: 'modalSlideIn 0.3s ease-out'
       }
     },
   },

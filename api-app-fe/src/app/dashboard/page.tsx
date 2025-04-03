@@ -121,7 +121,7 @@ export default function Dashboard() {
   };
 
   return (
-    <DashboardLayout>
+    <DashboardLayout isModalOpen={createModal.isOpen}>
       <ToastNotification toast={toast} />
       
       <div className="space-y-6">
