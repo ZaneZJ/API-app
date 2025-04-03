@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { validateApiKey } from '@/lib/supabase';
 import DashboardLayout from '@/components/DashboardLayout';
@@ -12,6 +12,7 @@ export default function ProtectedPage() {
   const [isValidating, setIsValidating] = useState(true);
   const [showApiKey, setShowApiKey] = useState(false);
   const [apiKey, setApiKey] = useState('');
+  const hasShownSuccess = useRef(false);
   const router = useRouter();
   const { toast, showToast } = useToast();
 
@@ -32,6 +33,9 @@ export default function ProtectedPage() {
           showToast('Invalid API key. Please try again.', 'error');
           localStorage.removeItem('apiKey');
           router.push('/playground');
+        } else if (!hasShownSuccess.current) {
+          showToast('API key validated successfully!', 'success');
+          hasShownSuccess.current = true;
         }
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : 'An error occurred while validating the API key.';
@@ -45,12 +49,6 @@ export default function ProtectedPage() {
 
     validateAndRedirect();
   }, [router, showToast]);
-
-  useEffect(() => {
-    if (!isValidating && apiKey) {
-      showToast('API key validated successfully!', 'success');
-    }
-  }, [isValidating, apiKey, showToast]);
 
   const handleCopyClick = async () => {
     try {
