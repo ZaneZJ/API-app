@@ -20,8 +20,6 @@ interface CreateKeyModalState {
 export default function Dashboard() {
   const {
     apiKeys,
-    isCreating,
-    error,
     loadApiKeys,
     createApiKey,
     deleteApiKey,
@@ -73,8 +71,9 @@ export default function Dashboard() {
       await createApiKey(createModal.name, createModal.type, createModal.limit);
       setCreateModal(prev => ({ ...prev, isOpen: false, name: '' }));
       showToast('API key created successfully!');
-    } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Failed to create API key', 'error');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create API key';
+      showToast(errorMessage, 'error');
     }
   };
 
@@ -83,8 +82,9 @@ export default function Dashboard() {
       await deleteApiKey(id);
       setVisibleKeys(prev => prev.filter(keyId => keyId !== id));
       showToast('API key deleted successfully!');
-    } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Failed to delete API key', 'error');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete API key';
+      showToast(errorMessage, 'error');
     }
   };
 
@@ -110,8 +110,9 @@ export default function Dashboard() {
       setEditingKey(null);
       setNameError('');
       showToast('API key name updated successfully!');
-    } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Failed to update API key', 'error');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to update API key';
+      showToast(errorMessage, 'error');
     }
   };
 
@@ -124,8 +125,9 @@ export default function Dashboard() {
     try {
       await navigator.clipboard.writeText(text);
       showToast('API key copied to clipboard!');
-    } catch (error) {
-      showToast('Failed to copy to clipboard', 'error');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to copy to clipboard';
+      showToast(errorMessage, 'error');
     }
   };
 

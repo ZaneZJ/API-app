@@ -27,8 +27,9 @@ export default function PlaygroundPage() {
       } else {
         showToast('Invalid API key. Please try again.', 'error');
       }
-    } catch (error) {
-      showToast('An error occurred while validating the API key.', 'error');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred while validating the API key.';
+      showToast(errorMessage, 'error');
     } finally {
       setIsLoading(false);
     }

@@ -33,8 +33,9 @@ export default function ProtectedPage() {
           localStorage.removeItem('apiKey');
           router.push('/playground');
         }
-      } catch (error) {
-        showToast('An error occurred while validating the API key.', 'error');
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'An error occurred while validating the API key.';
+        showToast(errorMessage, 'error');
         localStorage.removeItem('apiKey');
         router.push('/playground');
       } finally {
@@ -55,8 +56,9 @@ export default function ProtectedPage() {
     try {
       await navigator.clipboard.writeText(apiKey);
       showToast('API key copied to clipboard!', 'success');
-    } catch (error) {
-      showToast('Failed to copy API key to clipboard', 'error');
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to copy API key to clipboard';
+      showToast(errorMessage, 'error');
     }
   };
 
