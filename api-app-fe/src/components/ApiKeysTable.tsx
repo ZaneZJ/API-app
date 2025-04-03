@@ -1,10 +1,11 @@
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { ApiKey } from '@/lib/supabase';
 import { ApiKeyRow } from './ApiKeyRow';
+import { ApiKeysTableSkeleton } from './ApiKeysTableSkeleton';
 
 interface ApiKeysTableProps {
   apiKeys: ApiKey[];
-  showKey: string | null;
+  showKey: string[];
   editingKey: { id: string; name: string } | null;
   editName: string;
   nameError: string;
@@ -16,6 +17,7 @@ interface ApiKeysTableProps {
   onDelete: (id: string) => void;
   onEditNameChange: (name: string) => void;
   onCreateClick: () => void;
+  isLoading?: boolean;
 }
 
 export const ApiKeysTable = ({
@@ -31,8 +33,13 @@ export const ApiKeysTable = ({
   onCancelEdit,
   onDelete,
   onEditNameChange,
-  onCreateClick
+  onCreateClick,
+  isLoading = false
 }: ApiKeysTableProps) => {
+  if (isLoading) {
+    return <ApiKeysTableSkeleton />;
+  }
+
   return (
     <div className="bg-white rounded-xl shadow-sm">
       <div className="p-6 border-b">

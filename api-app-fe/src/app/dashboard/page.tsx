@@ -29,6 +29,7 @@ export default function Dashboard() {
   } = useApiKeys();
 
   const { toast, showToast } = useToast();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [createModal, setCreateModal] = useState<CreateKeyModalState>({
     isOpen: false,
@@ -39,12 +40,19 @@ export default function Dashboard() {
 
   const [editingKey, setEditingKey] = useState<{ id: string; name: string } | null>(null);
   const [editName, setEditName] = useState('');
-  const [showKey, setShowKey] = useState<string | null>(null);
+  const [visibleKeys, setVisibleKeys] = useState<string[]>([]);
   const [nameError, setNameError] = useState('');
 
   // Load API keys on mount
   useEffect(() => {
-    loadApiKeys();
+    const loadData = async () => {
+      try {
+        await loadApiKeys();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
   }, [loadApiKeys]);
 
   const handleCreateKey = async () => {
@@ -73,6 +81,7 @@ export default function Dashboard() {
   const handleDeleteKey = async (id: string) => {
     try {
       await deleteApiKey(id);
+      setVisibleKeys(prev => prev.filter(keyId => keyId !== id));
       showToast('API key deleted successfully!');
     } catch (error) {
       showToast(error instanceof Error ? error.message : 'Failed to delete API key', 'error');
@@ -120,6 +129,14 @@ export default function Dashboard() {
     }
   };
 
+  const toggleKeyVisibility = (id: string) => {
+    setVisibleKeys(prev => 
+      prev.includes(id) 
+        ? prev.filter(keyId => keyId !== id) 
+        : [...prev, id]
+    );
+  };
+
   return (
     <DashboardLayout isModalOpen={createModal.isOpen}>
       <ToastNotification toast={toast} />
@@ -129,11 +146,11 @@ export default function Dashboard() {
         
         <ApiKeysTable
           apiKeys={apiKeys}
-          showKey={showKey}
+          showKey={visibleKeys}
           editingKey={editingKey}
           editName={editName}
           nameError={nameError}
-          onShowKey={setShowKey}
+          onShowKey={toggleKeyVisibility}
           onCopyKey={copyToClipboard}
           onStartEditing={startEditing}
           onEdit={handleEdit}
@@ -141,6 +158,7 @@ export default function Dashboard() {
           onDelete={handleDeleteKey}
           onEditNameChange={setEditName}
           onCreateClick={() => setCreateModal(prev => ({ ...prev, isOpen: true }))}
+          isLoading={isLoading}
         />
       </div>
 

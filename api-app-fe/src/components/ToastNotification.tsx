@@ -9,7 +9,7 @@ export const ToastNotification = ({ toast }: ToastNotificationProps) => {
 
   return (
     <div
-      className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 transition-all duration-300 ${
+      className={`fixed top-1/2 left-[calc(50%+112px)] transform -translate-x-1/2 -translate-y-1/2 z-50 transition-all duration-300 ${
         toast.visible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-2 opacity-0 scale-95'
       }`}
     >

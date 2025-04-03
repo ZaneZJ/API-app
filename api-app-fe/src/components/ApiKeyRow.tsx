@@ -3,7 +3,7 @@ import { ApiKey } from '@/lib/supabase';
 
 interface ApiKeyRowProps {
   apiKey: ApiKey;
-  showKey: string | null;
+  showKey: string[];
   editingKey: { id: string; name: string } | null;
   editName: string;
   nameError: string;
@@ -30,6 +30,8 @@ export const ApiKeyRow = ({
   onDelete,
   onEditNameChange
 }: ApiKeyRowProps) => {
+  const isVisible = showKey.includes(apiKey.id);
+  
   return (
     <tr className="border-b">
       <td className="py-3 px-4">
@@ -107,15 +109,17 @@ export const ApiKeyRow = ({
       </td>
       <td className="py-3 px-4 min-w-[300px]">
         <code className="px-2 py-1 bg-gray-100 rounded text-sm font-mono w-full inline-block">
-          {showKey === apiKey.id ? apiKey.key : '••••••••••••••••'}
+          {isVisible ? apiKey.key : '••••••••••••••••'}
         </code>
       </td>
       <td className="py-3 px-4">
         <div className="flex justify-end gap-3">
           <button
             onClick={() => onShowKey(apiKey.id)}
-            className="p-1.5 text-gray-500 hover:text-gray-700 transition-all hover:scale-110 hover:bg-gray-100 rounded-full"
-            title="View"
+            className={`p-1.5 transition-all hover:scale-110 hover:bg-gray-100 rounded-full ${
+              isVisible ? 'text-purple-500 hover:text-purple-700' : 'text-gray-500 hover:text-gray-700'
+            }`}
+            title={isVisible ? "Hide" : "View"}
           >
             <EyeIcon className="w-4 h-4" />
           </button>
