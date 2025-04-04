@@ -1,6 +1,9 @@
 import { ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { HomeIcon, UserIcon, BeakerIcon, DocumentTextIcon, CodeBracketIcon, BookOpenIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { HomeIcon, UserIcon, BeakerIcon, DocumentTextIcon, CodeBracketIcon, BookOpenIcon, ChevronLeftIcon, ChevronRightIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -8,6 +11,8 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children, isModalOpen = false }: DashboardLayoutProps) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   // Load sidebar state
@@ -22,6 +27,36 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
   useEffect(() => {
     localStorage.setItem('sidebarCollapsed', isCollapsed.toString());
   }, [isCollapsed]);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/auth/signin');
+    }
+  }, [status, router]);
+
+  // Render loading state or nothing while checking authentication
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center space-y-4">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-purple-500 rounded-full blur-lg opacity-50 animate-pulse"></div>
+            <div className="relative bg-gradient-to-r from-rose-300 to-purple-400 p-4 rounded-full">
+              <div className="w-12 h-12 animate-spin border-4 border-white border-t-transparent rounded-full" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-rose-400 to-purple-500 bg-clip-text text-transparent">
+            Loading...
+          </h2>
+        </div>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return null;
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -68,11 +103,11 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
 
         {/* User Section */}
         <div className={`px-3 mb-6 transition-all duration-300`}>
-          <button className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors ${isCollapsed ? 'justify-center' : 'ml-5'}`}>
+          <button className={`flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors ${isCollapsed ? 'justify-center w-full' : 'ml-5 w-[calc(100%-20px)]'}`}>
             <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
               <UserIcon className="w-4 h-4 text-gray-600" />
             </div>
-            {!isCollapsed && <span>Personal</span>}
+            {!isCollapsed && <span className="truncate">Personal</span>}
           </button>
         </div>
 
@@ -106,30 +141,31 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
           </div>
         </nav>
 
-        {/* User Profile */}
+        {/* User Profile - simplified */}
         <div className={`p-4 mt-auto border-t border-gray-200 transition-all duration-300`}>
-          <div className="flex items-center justify-between">
-            <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center w-full' : ''}`}>
+          <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
+            {session?.user?.image ? (
+              <Image
+                src={session.user.image}
+                alt={session.user.name || 'User'}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            ) : (
               <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
                 <UserIcon className="w-6 h-6 text-gray-500" />
               </div>
-              {!isCollapsed && (
-                <div>
-                  <div className="text-sm font-medium text-gray-700">
-                    Zane Jansone
-                  </div>
-                </div>
-              )}
-            </div>
+            )}
             {!isCollapsed && (
-              <button 
-                className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                aria-label="User settings"
-              >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+              <div className="overflow-hidden">
+                <div className="text-sm font-medium text-gray-700 truncate">
+                  {session?.user?.name || 'User'}
+                </div>
+                <div className="text-xs text-gray-500 truncate">
+                  {session?.user?.email}
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -137,7 +173,21 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
 
       {/* Main Content */}
       <div className="flex-1">
-        <div className="min-h-screen flex flex-col p-8 lg:p-12">
+        {/* Top Bar with Logout */}
+        <div className="sticky top-0 z-10 bg-gray-50/80 backdrop-blur-sm border-b border-gray-200">
+          <div className="flex justify-end px-8 py-4">
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg transition-all duration-300 hover:shadow-md group"
+            >
+              <span className="text-sm font-medium">Sign Out</span>
+              <ArrowRightOnRectangleIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="p-8 lg:p-12">
           <div className={`max-w-5xl mx-auto w-full space-y-8 transition-all duration-300`}>
             {children}
           </div>
