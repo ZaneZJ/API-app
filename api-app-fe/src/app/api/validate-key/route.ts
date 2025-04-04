@@ -38,11 +38,18 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    return new NextResponse(JSON.stringify({ error: 'Server error' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    console.error('Error validating API key:', error);
+    return new NextResponse(
+      JSON.stringify({ 
+        error: 'Server error validating API key',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 } 
