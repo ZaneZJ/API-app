@@ -14,6 +14,12 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
   const { data: session, status } = useSession();
   const router = useRouter();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Set client-side flag
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Load sidebar state
   useEffect(() => {
@@ -28,15 +34,16 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
     localStorage.setItem('sidebarCollapsed', isCollapsed.toString());
   }, [isCollapsed]);
 
-  // Redirect to login if not authenticated
+  // Enhanced authentication check
   useEffect(() => {
-    if (status === 'unauthenticated') {
+    if (isClient && status === 'unauthenticated') {
+      console.log('Redirecting to signin - Status:', status);
       router.replace('/auth/signin');
     }
-  }, [status, router]);
+  }, [status, router, isClient]);
 
-  // Render loading state or nothing while checking authentication
-  if (status === 'loading') {
+  // Show loading state while checking authentication or during server-side rendering
+  if (!isClient || status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center space-y-4">
@@ -54,7 +61,8 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
     );
   }
 
-  if (!session) {
+  // Only render when we have a valid session
+  if (status !== 'authenticated' || !session) {
     return null;
   }
 
