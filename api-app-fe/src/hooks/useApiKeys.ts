@@ -35,7 +35,7 @@ export const useApiKeys = () => {
     
     try {
       console.log('Creating new API key...');
-      const prefix = type === 'production' ? 'tvly_live_' : 'tvly_test_';
+      const prefix = type === 'production' ? 'zj_live_' : 'zj_test_';
       const newKey = prefix + crypto.randomUUID().replace(/-/g, '');
       
       const newApiKey = {

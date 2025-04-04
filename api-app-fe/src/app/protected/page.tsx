@@ -13,11 +13,15 @@ export default function ProtectedPage() {
   const [showApiKey, setShowApiKey] = useState(false);
   const [apiKey, setApiKey] = useState('');
   const hasShownSuccess = useRef(false);
+  const hasValidated = useRef(false);
   const router = useRouter();
   const { toast, showToast } = useToast();
 
   useEffect(() => {
     const validateAndRedirect = async () => {
+      if (hasValidated.current) return;
+      hasValidated.current = true;
+      
       const storedApiKey = localStorage.getItem('apiKey');
       
       if (!storedApiKey) {

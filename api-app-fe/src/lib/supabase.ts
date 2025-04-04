@@ -31,18 +31,17 @@ export type ApiKey = {
 
 export async function validateApiKey(apiKey: string): Promise<boolean> {
   try {
-    const { data, error } = await supabase
-      .from('api_keys')
-      .select('id')
-      .eq('key', apiKey)
-      .single();
+    const response = await fetch('/api/validate-key', {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+      },
+    });
 
-    if (error) {
-      console.error('Error validating API key:', error);
-      return false;
+    if (response.status === 200) {
+      return true;
     }
 
-    return !!data;
+    return false;
   } catch (error) {
     console.error('Error validating API key:', error);
     return false;
