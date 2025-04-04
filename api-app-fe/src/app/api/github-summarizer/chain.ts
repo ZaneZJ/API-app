@@ -29,7 +29,7 @@ Remember to be concise but informative in the summary, and extract the most inte
 const model = new ChatOpenAI({
   modelName: "gpt-3.5-turbo",
   temperature: 0.7,
-  openAIApiKey: process.env.OPENAI_API_KEY // Will use environment variable if available
+  openAIApiKey: process.env.OPENAI_API_KEY
 });
 
 // Create the chain

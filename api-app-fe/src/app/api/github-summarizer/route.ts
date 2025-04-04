@@ -38,9 +38,9 @@ export async function POST(request: Request) {
     try {
       body = await request.json();
     } catch (error) {
-      const parseError = error instanceof Error ? error.message : 'Unknown parsing error';
+      const errorMessage = error instanceof Error ? error.message : 'Unknown parsing error';
       return new NextResponse(JSON.stringify({ 
-        error: `Invalid JSON in request body: ${parseError}`
+        error: `Invalid JSON in request body: ${errorMessage}`
       }), {
         status: 400,
         headers: {

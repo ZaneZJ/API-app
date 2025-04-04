@@ -23,7 +23,8 @@ export async function GET(request: Request) {
       .single();
 
     if (error || !data) {
-      return new NextResponse(JSON.stringify({ error: 'Invalid API key' }), {
+      const errorMessage = error ? error.message : 'Invalid API key';
+      return new NextResponse(JSON.stringify({ error: errorMessage }), {
         status: 406,
         headers: {
           'Content-Type': 'application/json',
