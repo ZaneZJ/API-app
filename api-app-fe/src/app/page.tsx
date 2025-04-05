@@ -2,7 +2,6 @@
 
 import { CodeBracketIcon, BoltIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { FcGoogle } from 'react-icons/fc';
 
 export default function Home() {
   const { data: session } = useSession();
