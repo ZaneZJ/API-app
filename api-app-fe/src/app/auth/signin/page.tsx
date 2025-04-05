@@ -7,7 +7,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { CodeBracketIcon } from '@heroicons/react/24/outline';
 
 export default function SignIn() {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
