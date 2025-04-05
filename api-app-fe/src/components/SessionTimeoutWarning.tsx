@@ -6,9 +6,10 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 interface SessionTimeoutWarningProps {
   show: boolean;
   onExtendSession: () => void;
+  onClose: () => void;
 }
 
-export const SessionTimeoutWarning = ({ show, onExtendSession }: SessionTimeoutWarningProps) => {
+export const SessionTimeoutWarning = ({ show, onExtendSession, onClose }: SessionTimeoutWarningProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export const SessionTimeoutWarning = ({ show, onExtendSession }: SessionTimeoutW
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-gray-100 flex justify-center">
+          <div className="p-6 border-t border-gray-100 flex justify-center gap-4">
             <button
               onClick={() => {
                 console.log('Extending session...');
@@ -65,6 +66,16 @@ export const SessionTimeoutWarning = ({ show, onExtendSession }: SessionTimeoutW
               className="px-8 py-2.5 bg-gradient-to-r from-rose-400 to-purple-500 hover:from-rose-500 hover:to-purple-600 text-white rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 font-medium shadow-md hover:shadow-lg"
             >
               Extend Session
+            </button>
+            <button
+              onClick={() => {
+                console.log('Closing warning...');
+                onClose();
+                setIsVisible(false);
+              }}
+              className="px-8 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 font-medium shadow-md hover:shadow-lg"
+            >
+              Close
             </button>
           </div>
         </div>
