@@ -1,4 +1,4 @@
-import { PlusIcon, BeakerIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, BeakerIcon, RocketLaunchIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 
 interface CreateKeyModalProps {
   isOpen: boolean;
@@ -6,6 +6,7 @@ interface CreateKeyModalProps {
   type: 'production' | 'development';
   limit: number;
   nameError: string;
+  isCreating?: boolean;
   onClose: () => void;
   onNameChange: (name: string) => void;
   onTypeChange: (type: 'production' | 'development') => void;
@@ -19,6 +20,7 @@ export const CreateKeyModal = ({
   type,
   limit,
   nameError,
+  isCreating = false,
   onClose,
   onNameChange,
   onTypeChange,
@@ -155,16 +157,30 @@ export const CreateKeyModal = ({
         <div className="p-6 border-t border-gray-100 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-6 py-2 border-2 border-gray-200 rounded-xl text-gray-600 hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50 font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+            disabled={isCreating}
+            className={`px-6 py-2 border-2 border-gray-200 rounded-xl text-gray-600 font-medium transition-all duration-200 ${
+              isCreating
+                ? 'opacity-50 cursor-not-allowed'
+                : 'hover:text-gray-700 hover:border-gray-300 hover:bg-gray-50 hover:scale-105 active:scale-95'
+            }`}
           >
             Cancel
           </button>
           <button
             onClick={onCreate}
-            className="px-6 py-2 bg-gradient-to-r from-rose-400 to-purple-500 hover:from-rose-500 hover:to-purple-600 text-white rounded-xl transition-all duration-200 hover:scale-105 active:scale-95 font-medium shadow-md hover:shadow-lg flex items-center gap-2"
+            disabled={isCreating}
+            className={`px-6 py-2 bg-gradient-to-r from-rose-400 to-purple-500 text-white rounded-xl transition-all duration-200 font-medium shadow-md flex items-center gap-2 ${
+              isCreating
+                ? 'opacity-50 cursor-not-allowed'
+                : 'hover:from-rose-500 hover:to-purple-600 hover:scale-105 active:scale-95 hover:shadow-lg'
+            }`}
           >
-            <PlusIcon className="w-5 h-5" />
-            Create Key
+            {isCreating ? (
+              <ArrowPathIcon className="w-5 h-5 animate-spin" />
+            ) : (
+              <PlusIcon className="w-5 h-5" />
+            )}
+            {isCreating ? 'Creating...' : 'Create Key'}
           </button>
         </div>
       </div>

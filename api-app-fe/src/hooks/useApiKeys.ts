@@ -8,9 +8,13 @@ export const useApiKeys = () => {
 
   const loadApiKeys = async () => {
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const { data, error } = await supabase
         .from('api_keys')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -32,6 +36,9 @@ export const useApiKeys = () => {
     setError(null);
     
     try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
+
       const prefix = type === 'production' ? 'zj_live_' : 'zj_test_';
       const newKey = prefix + crypto.randomUUID().replace(/-/g, '');
       
@@ -40,7 +47,7 @@ export const useApiKeys = () => {
         key: newKey,
         type,
         usage_limit: limit,
-        user_id: '00000000-0000-0000-0000-000000000000',
+        user_id: user.id,
         usage: 0,
         last_used: 'Never'
       };

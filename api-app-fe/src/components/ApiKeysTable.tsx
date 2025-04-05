@@ -1,4 +1,4 @@
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import { ApiKey } from '@/lib/supabase';
 import { ApiKeyRow } from './ApiKeyRow';
 import { ApiKeysTableSkeleton } from './ApiKeysTableSkeleton';
@@ -18,6 +18,7 @@ interface ApiKeysTableProps {
   onEditNameChange: (name: string) => void;
   onCreateClick: () => void;
   isLoading?: boolean;
+  isCreating?: boolean;
 }
 
 export const ApiKeysTable = ({
@@ -34,7 +35,8 @@ export const ApiKeysTable = ({
   onDelete,
   onEditNameChange,
   onCreateClick,
-  isLoading = false
+  isLoading = false,
+  isCreating = false
 }: ApiKeysTableProps) => {
   if (isLoading) {
     return <ApiKeysTableSkeleton />;
@@ -47,17 +49,51 @@ export const ApiKeysTable = ({
           <h2 className="text-xl font-semibold">API Keys</h2>
           <button
             onClick={onCreateClick}
-            className="px-4 py-2 bg-gradient-to-r from-rose-300 to-purple-400 hover:from-rose-400 hover:to-purple-500 text-white rounded-lg transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-md hover:shadow-lg"
+            disabled={isCreating}
+            className={`px-4 py-2 bg-gradient-to-r from-rose-300 to-purple-400 text-white rounded-lg transition-all flex items-center gap-2 shadow-md ${
+              isCreating 
+                ? 'opacity-50 cursor-not-allowed' 
+                : 'hover:from-rose-400 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-lg'
+            }`}
           >
-            <PlusIcon className="w-5 h-5" />
-            New Key
+            {isCreating ? (
+              <ArrowPathIcon className="w-5 h-5 animate-spin" />
+            ) : (
+              <PlusIcon className="w-5 h-5" />
+            )}
+            {isCreating ? 'Creating...' : 'New Key'}
           </button>
         </div>
       </div>
 
       <div className="p-6">
         {apiKeys.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No API keys found. Create one to get started.</p>
+          <div className="flex flex-col items-center justify-center py-12 px-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-rose-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
+              <PlusIcon className="w-8 h-8 text-rose-500" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">No API Keys Yet</h3>
+            <p className="text-gray-500 text-center max-w-md mb-6">
+              Create your first API key to start integrating with our services. 
+              You can create both development and production keys.
+            </p>
+            <button
+              onClick={onCreateClick}
+              disabled={isCreating}
+              className={`px-6 py-3 bg-gradient-to-r from-rose-300 to-purple-400 text-white rounded-lg transition-all flex items-center gap-2 shadow-md ${
+                isCreating 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:from-rose-400 hover:to-purple-500 hover:scale-105 active:scale-95 hover:shadow-lg'
+              }`}
+            >
+              {isCreating ? (
+                <ArrowPathIcon className="w-5 h-5 animate-spin" />
+              ) : (
+                <PlusIcon className="w-5 h-5" />
+              )}
+              {isCreating ? 'Creating...' : 'Create Your First API Key'}
+            </button>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">

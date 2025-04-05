@@ -23,7 +23,8 @@ export default function Dashboard() {
     loadApiKeys,
     createApiKey,
     deleteApiKey,
-    updateApiKeyName
+    updateApiKeyName,
+    isCreating
   } = useApiKeys();
 
   const { toast, showToast } = useToast();
@@ -161,6 +162,7 @@ export default function Dashboard() {
           onEditNameChange={setEditName}
           onCreateClick={() => setCreateModal(prev => ({ ...prev, isOpen: true }))}
           isLoading={isLoading}
+          isCreating={isCreating}
         />
       </div>
 
@@ -170,6 +172,7 @@ export default function Dashboard() {
         type={createModal.type}
         limit={createModal.limit}
         nameError={nameError}
+        isCreating={isCreating}
         onClose={() => setCreateModal(prev => ({ ...prev, isOpen: false }))}
         onNameChange={(name) => setCreateModal(prev => ({ ...prev, name }))}
         onTypeChange={(type) => setCreateModal(prev => ({ ...prev, type }))}
