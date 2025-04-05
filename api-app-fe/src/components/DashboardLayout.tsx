@@ -99,7 +99,7 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
                       API App
                     </h1>
                     <div className="text-xs text-gray-500 tracking-wider animate-slideIn">
-                      DASHBOARD
+                      AI POWERED
                     </div>
                   </div>
                 )}
