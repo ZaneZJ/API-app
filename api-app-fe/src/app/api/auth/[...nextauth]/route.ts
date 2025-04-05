@@ -9,6 +9,22 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: 2 * 60, // 5 minutes in seconds
+  },
+  cookies: {
+    sessionToken: {
+      name: 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 2 * 60 // 5 minutes in seconds
+      }
+    }
+  },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
