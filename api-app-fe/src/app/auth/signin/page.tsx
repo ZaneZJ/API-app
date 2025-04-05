@@ -17,17 +17,41 @@ export default function SignIn() {
         <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-200/40 to-cyan-200/40 rounded-full blur-3xl animate-pulse-slow" />
         <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-to-r from-orange-200/40 to-yellow-200/40 rounded-full blur-3xl animate-float" />
         
+        {/* Additional dynamic gradients */}
+        <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] bg-gradient-to-br from-indigo-200/30 to-purple-200/30 rounded-full blur-3xl animate-move-diagonal" />
+        <div className="absolute bottom-1/4 left-1/3 w-[600px] h-[600px] bg-gradient-to-tr from-amber-200/30 to-rose-200/30 rounded-full blur-3xl animate-move-diagonal-reverse" />
+        
         {/* Animated dots */}
         <div className="absolute inset-0">
+          {/* Original dots */}
           <div className="absolute h-2 w-2 bg-purple-400/30 rounded-full top-1/4 left-1/4 animate-ping-slow" />
           <div className="absolute h-2 w-2 bg-rose-400/30 rounded-full top-3/4 right-1/4 animate-ping-slow delay-300" />
           <div className="absolute h-2 w-2 bg-blue-400/30 rounded-full bottom-1/4 left-1/3 animate-ping-slow delay-700" />
+          <div className="absolute h-2 w-2 bg-indigo-400/30 rounded-full top-1/3 right-1/3 animate-ping-slow delay-500" />
+          <div className="absolute h-2 w-2 bg-amber-400/30 rounded-full bottom-1/3 left-1/4 animate-ping-slow delay-1000" />
+          
+          {/* New floating dots */}
+          <div className="absolute h-3 w-3 bg-gradient-to-r from-purple-400/40 to-rose-400/40 rounded-full top-1/5 right-1/5 animate-float-dot" />
+          <div className="absolute h-3 w-3 bg-gradient-to-r from-blue-400/40 to-cyan-400/40 rounded-full top-2/5 left-1/5 animate-float-dot delay-200" />
+          <div className="absolute h-3 w-3 bg-gradient-to-r from-amber-400/40 to-orange-400/40 rounded-full bottom-1/5 right-2/5 animate-float-dot delay-400" />
+          <div className="absolute h-3 w-3 bg-gradient-to-r from-indigo-400/40 to-violet-400/40 rounded-full bottom-2/5 left-2/5 animate-float-dot delay-600" />
+          
+          {/* New moving dots */}
+          <div className="absolute h-2 w-2 bg-purple-400/20 rounded-full top-1/6 left-1/6 animate-move-dot-1" />
+          <div className="absolute h-2 w-2 bg-rose-400/20 rounded-full top-2/6 right-1/6 animate-move-dot-2" />
+          <div className="absolute h-2 w-2 bg-blue-400/20 rounded-full bottom-1/6 left-2/6 animate-move-dot-3" />
+          <div className="absolute h-2 w-2 bg-amber-400/20 rounded-full bottom-2/6 right-2/6 animate-move-dot-4" />
+          
+          {/* New pulsing dots */}
+          <div className="absolute h-1.5 w-1.5 bg-gradient-to-r from-purple-400/30 to-rose-400/30 rounded-full top-1/3 left-1/3 animate-pulse-dot" />
+          <div className="absolute h-1.5 w-1.5 bg-gradient-to-r from-blue-400/30 to-cyan-400/30 rounded-full top-2/3 right-1/3 animate-pulse-dot delay-300" />
+          <div className="absolute h-1.5 w-1.5 bg-gradient-to-r from-amber-400/30 to-orange-400/30 rounded-full bottom-1/3 left-2/3 animate-pulse-dot delay-600" />
         </div>
 
         {/* Grid pattern with gradient overlay */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDBNIDAgMjAgTCA0MCAyMCBNIDIwIDAgTCAyMCA0MCBNIDAgMzAgTCA0MCAzMCBNIDMwIDAgTCAzMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDEwMywgMjIsIDE5NiwgMC4xKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-40" />
         
-        {/* Radial gradient overlay */}
+        {/* Radial gradient overlay with right transparency */}
         <div className="absolute inset-0 bg-gradient-to-r from-white/50 via-white/50 to-transparent" />
       </div>
 
@@ -52,9 +76,51 @@ export default function SignIn() {
           50% { transform: translate(20px, -20px) scale(1.1); }
           100% { transform: translate(0, 0) scale(1); }
         }
+        @keyframes move-diagonal {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          50% { transform: translate(30px, 30px) rotate(5deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        @keyframes move-diagonal-reverse {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          50% { transform: translate(-30px, -30px) rotate(-5deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
         @keyframes ping-slow {
           0% { transform: scale(1); opacity: 0.3; }
           50% { transform: scale(2); opacity: 0.6; }
+          100% { transform: scale(1); opacity: 0.3; }
+        }
+        @keyframes float-dot {
+          0% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(10px, -10px) scale(1.1); }
+          50% { transform: translate(0, -20px) scale(1); }
+          75% { transform: translate(-10px, -10px) scale(0.9); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes move-dot-1 {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(50px, 30px); }
+          100% { transform: translate(0, 0); }
+        }
+        @keyframes move-dot-2 {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(-40px, 20px); }
+          100% { transform: translate(0, 0); }
+        }
+        @keyframes move-dot-3 {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(30px, -40px); }
+          100% { transform: translate(0, 0); }
+        }
+        @keyframes move-dot-4 {
+          0% { transform: translate(0, 0); }
+          50% { transform: translate(-50px, -30px); }
+          100% { transform: translate(0, 0); }
+        }
+        @keyframes pulse-dot {
+          0% { transform: scale(1); opacity: 0.3; }
+          50% { transform: scale(1.5); opacity: 0.6; }
           100% { transform: scale(1); opacity: 0.3; }
         }
         @keyframes slide-up {
@@ -85,8 +151,32 @@ export default function SignIn() {
         .animate-move-slow-reverse {
           animation: move-slow-reverse 15s ease-in-out infinite;
         }
+        .animate-move-diagonal {
+          animation: move-diagonal 20s ease-in-out infinite;
+        }
+        .animate-move-diagonal-reverse {
+          animation: move-diagonal-reverse 20s ease-in-out infinite;
+        }
         .animate-ping-slow {
           animation: ping-slow 4s ease-in-out infinite;
+        }
+        .animate-float-dot {
+          animation: float-dot 8s ease-in-out infinite;
+        }
+        .animate-move-dot-1 {
+          animation: move-dot-1 12s ease-in-out infinite;
+        }
+        .animate-move-dot-2 {
+          animation: move-dot-2 15s ease-in-out infinite;
+        }
+        .animate-move-dot-3 {
+          animation: move-dot-3 10s ease-in-out infinite;
+        }
+        .animate-move-dot-4 {
+          animation: move-dot-4 14s ease-in-out infinite;
+        }
+        .animate-pulse-dot {
+          animation: pulse-dot 4s ease-in-out infinite;
         }
         .animate-slide-up {
           animation: slide-up 0.5s ease-out forwards;
@@ -97,11 +187,26 @@ export default function SignIn() {
         .animate-text-reveal {
           animation: text-reveal 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
         }
+        .delay-200 {
+          animation-delay: 200ms;
+        }
         .delay-300 {
           animation-delay: 300ms;
         }
+        .delay-400 {
+          animation-delay: 400ms;
+        }
+        .delay-500 {
+          animation-delay: 500ms;
+        }
+        .delay-600 {
+          animation-delay: 600ms;
+        }
         .delay-700 {
           animation-delay: 700ms;
+        }
+        .delay-1000 {
+          animation-delay: 1000ms;
         }
       `}</style>
 
