@@ -8,7 +8,6 @@ export const useApiKeys = () => {
 
   const loadApiKeys = async () => {
     try {
-      console.log('Loading API keys...');
       const { data, error } = await supabase
         .from('api_keys')
         .select('*')
@@ -20,7 +19,6 @@ export const useApiKeys = () => {
         throw error;
       }
       
-      console.log('Loaded API keys:', data);
       setApiKeys(data || []);
       setError(null);
     } catch (error) {
@@ -34,7 +32,6 @@ export const useApiKeys = () => {
     setError(null);
     
     try {
-      console.log('Creating new API key...');
       const prefix = type === 'production' ? 'zj_live_' : 'zj_test_';
       const newKey = prefix + crypto.randomUUID().replace(/-/g, '');
       
@@ -48,8 +45,6 @@ export const useApiKeys = () => {
         last_used: 'Never'
       };
       
-      console.log('Inserting new API key:', newApiKey);
-      
       const { data, error } = await supabase
         .from('api_keys')
         .insert([newApiKey])
@@ -61,7 +56,6 @@ export const useApiKeys = () => {
         throw error;
       }
       
-      console.log('Created API key:', data);
       setApiKeys([data, ...apiKeys]);
       return data;
     } catch (error) {
@@ -74,8 +68,6 @@ export const useApiKeys = () => {
 
   const deleteApiKey = async (id: string) => {
     try {
-      console.log('Deleting API key...');
-      
       const { error } = await supabase
         .from('api_keys')
         .delete()
@@ -86,7 +78,6 @@ export const useApiKeys = () => {
         throw error;
       }
       
-      console.log('Deleted API key:', id);
       setApiKeys(apiKeys.filter(key => key.id !== id));
     } catch (error) {
       console.error('Failed to delete API key:', error);
@@ -96,8 +87,6 @@ export const useApiKeys = () => {
 
   const updateApiKeyName = async (id: string, newName: string) => {
     try {
-      console.log('Updating API key name...');
-      
       const { data, error } = await supabase
         .from('api_keys')
         .update({ name: newName.trim() })
@@ -110,7 +99,6 @@ export const useApiKeys = () => {
         throw error;
       }
       
-      console.log('Updated API key:', data);
       setApiKeys(apiKeys.map(key => 
         key.id === id ? data : key
       ));
