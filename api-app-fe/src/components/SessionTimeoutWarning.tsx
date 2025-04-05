@@ -6,10 +6,9 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 interface SessionTimeoutWarningProps {
   show: boolean;
   onExtendSession: () => void;
-  onClose: () => void;
 }
 
-export const SessionTimeoutWarning = ({ show, onExtendSession, onClose }: SessionTimeoutWarningProps) => {
+export const SessionTimeoutWarning = ({ show, onExtendSession }: SessionTimeoutWarningProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {

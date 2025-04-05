@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { signOut } from 'next-auth/react';
 
 // 5 minutes in milliseconds
@@ -10,10 +10,10 @@ const WARNING_TIMEOUT = SESSION_TIMEOUT - 60 * 1000;
 
 export const useSessionTimeout = () => {
   const [showWarning, setShowWarning] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
-  const warningTimeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const warningTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const resetTimeout = () => {
+  const resetTimeout = useCallback(() => {
     console.log('Resetting timeout...');
     // Clear existing timeouts
     if (timeoutRef.current) {
@@ -34,14 +34,14 @@ export const useSessionTimeout = () => {
       console.log('Session timeout triggered');
       signOut({ callbackUrl: '/' });
     }, SESSION_TIMEOUT);
-  };
+  }, []);
 
-  const handleUserActivity = () => {
+  const handleUserActivity = useCallback(() => {
     if (!showWarning) {
       console.log('User activity detected, resetting timeout');
       resetTimeout();
     }
-  };
+  }, [showWarning, resetTimeout]);
 
   useEffect(() => {
     console.log('Setting up session timeout listeners');
@@ -66,18 +66,18 @@ export const useSessionTimeout = () => {
       window.removeEventListener('keydown', handleUserActivity);
       window.removeEventListener('scroll', handleUserActivity);
     };
-  }, []);
+  }, [resetTimeout, handleUserActivity]);
 
-  const extendSession = () => {
+  const extendSession = useCallback(() => {
     console.log('Extending session...');
     setShowWarning(false);
     resetTimeout();
-  };
+  }, [resetTimeout]);
 
-  const dismissWarning = () => {
+  const dismissWarning = useCallback(() => {
     console.log('Dismissing warning...');
     setShowWarning(false);
-  };
+  }, []);
 
   return {
     showWarning,
