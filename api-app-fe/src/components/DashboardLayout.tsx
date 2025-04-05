@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -103,12 +105,15 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
 
         {/* User Section */}
         <div className={`px-3 mb-6 transition-all duration-300`}>
-          <button className={`flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors ${isCollapsed ? 'justify-center w-full' : 'ml-5 w-[calc(100%-20px)]'}`}>
+          <Link 
+            href="/protected/personal"
+            className={`flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg transition-colors ${isCollapsed ? 'justify-center w-full' : 'ml-5 w-[calc(100%-20px)]'}`}
+          >
             <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
               <UserIcon className="w-4 h-4 text-gray-600" />
             </div>
             {!isCollapsed && <span className="truncate">Personal</span>}
-          </button>
+          </Link>
         </div>
 
         {/* Navigation */}
