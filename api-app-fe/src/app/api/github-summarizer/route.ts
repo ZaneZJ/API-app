@@ -17,16 +17,42 @@ export async function POST(request: Request) {
   }
 
   try {
-    // 2. Validate the API key with Supabase
+    // 2. Validate the API key with Supabase and check rate limit
     const { data: keyData, error: keyError } = await supabase
       .from('api_keys')
-      .select('id')
+      .select('id, usage, usage_limit')
       .eq('key', apiKey)
       .single();
 
     if (keyError || !keyData) {
       return new NextResponse(JSON.stringify({ error: 'Invalid API key' }), {
         status: 406,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
+    // Check if usage has exceeded rate limit
+    if (keyData.usage >= keyData.usage_limit) {
+      return new NextResponse(JSON.stringify({ error: 'Rate limit exceeded' }), {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
+    // Increment usage count
+    const { error: updateError } = await supabase
+      .from('api_keys')
+      .update({ usage: keyData.usage + 1 })
+      .eq('id', keyData.id);
+
+    if (updateError) {
+      console.error('Failed to update usage count:', updateError);
+      return new NextResponse(JSON.stringify({ error: 'Failed to update usage count' }), {
+        status: 500,
         headers: {
           'Content-Type': 'application/json',
         },
