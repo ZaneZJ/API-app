@@ -125,7 +125,7 @@ export default function DashboardLayout({ children, isModalOpen = false }: Dashb
             <div className={`space-y-1 ${isCollapsed ? 'flex flex-col items-center' : 'ml-5'}`}>
               {[
                 { href: '/dashboard', icon: HomeIcon, text: 'Overview' },
-                { href: '/assistant', icon: BeakerIcon, text: 'GitHub Insight' },
+                { href: '/github-insights', icon: BeakerIcon, text: 'GitHub Insight' },
                 { href: '/reports', icon: DocumentTextIcon, text: 'Research Reports' },
                 { href: '/playground', icon: CodeBracketIcon, text: 'API Playground' },
                 { href: '/docs', icon: BookOpenIcon, text: 'Documentation' }

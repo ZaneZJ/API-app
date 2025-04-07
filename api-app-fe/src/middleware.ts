@@ -30,8 +30,9 @@ export const config = {
      * 2. /auth/* (auth pages)
      * 3. /_next/* (Next.js internals)
      * 4. /api/auth/* (auth API routes)
-     * 5. /images, /icons, etc. (static files)
+     * 5. /api/github-summarizer (GitHub summarizer API)
+     * 6. /images, /icons, etc. (static files)
      */
-    '/((?!api/auth|_next|images|icons|auth|$).*)',
+    '/((?!api/auth|api/github-summarizer|_next|images|icons|auth|$).*)',
   ],
 }; 
