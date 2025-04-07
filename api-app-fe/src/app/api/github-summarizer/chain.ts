@@ -3,7 +3,6 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { StructuredOutputParser } from "@langchain/core/output_parsers";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 
 // Define the structure for the output
 const outputSchema = z.object({
@@ -12,7 +11,6 @@ const outputSchema = z.object({
 });
 
 // Create an output parser with JSON schema
-const jsonSchema = zodToJsonSchema(outputSchema);
 const outputParser = StructuredOutputParser.fromZodSchema(outputSchema);
 
 // Create the prompt template
