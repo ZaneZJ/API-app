@@ -9,7 +9,7 @@
 
 "@auth/core@^0.34.2":
   version "0.34.2"
-  resolved "https://registry.npmjs.org/@auth/core/-/core-0.34.2.tgz"
+  resolved "https://registry.yarnpkg.com/@auth/core/-/core-0.34.2.tgz#645fd1f972842ca473d110a34a5a36838209bf10"
   integrity sha512-KywHKRgLiF3l7PLyL73fjLSIBe1YNcA6sMeew4yMP6cfCWGXZrkkXd32AjRi1hlJ9nvovUBGZHvbn+LijO6ZeQ==
   dependencies:
     "@panva/hkdf" "^1.1.1"
@@ -624,7 +624,7 @@
 
 "@types/cookie@0.6.0":
   version "0.6.0"
-  resolved "https://registry.npmjs.org/@types/cookie/-/cookie-0.6.0.tgz"
+  resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.6.0.tgz#eac397f28bf1d6ae0ae081363eca2f425bedf0d5"
   integrity sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==
 
 "@types/estree@^1.0.6":
@@ -1197,15 +1197,10 @@ console-table-printer@^2.12.1:
   dependencies:
     simple-wcswidth "^1.0.1"
 
-cookie@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.npmjs.org/cookie/-/cookie-0.6.0.tgz"
-  integrity sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==
-
-cookie@^0.7.0:
-  version "0.7.2"
-  resolved "https://registry.npmjs.org/cookie/-/cookie-0.7.2.tgz"
-  integrity sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==
+cookie@0.6.0, cookie@^0.7.0, cookie@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-1.0.2.tgz#27360701532116bd3f1f9416929d176afe1e4610"
+  integrity sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==
 
 cross-spawn@^7.0.6:
   version "7.0.6"
@@ -2211,7 +2206,7 @@ jose@^4.14.4, jose@^4.15.5, jose@^4.15.9:
 
 jose@^5.1.3:
   version "5.10.0"
-  resolved "https://registry.npmjs.org/jose/-/jose-5.10.0.tgz"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-5.10.0.tgz#c37346a099d6467c401351a9a0c2161e0f52c4be"
   integrity sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==
 
 js-tiktoken@^1.0.12:
@@ -2548,7 +2543,7 @@ node-fetch@^2.6.7:
 
 oauth4webapi@^2.10.4:
   version "2.17.0"
-  resolved "https://registry.npmjs.org/oauth4webapi/-/oauth4webapi-2.17.0.tgz"
+  resolved "https://registry.yarnpkg.com/oauth4webapi/-/oauth4webapi-2.17.0.tgz#4af65bd4dac6761d8e4f2fb20848e82a879a6725"
   integrity sha512-lbC0Z7uzAFNFyzEYRIC+pkSVvDHJTbEW+dYlSBAlCYDe6RxUkJ26bClhk8ocBZip1wfI9uKTe0fm4Ib4RHn6uQ==
 
 oauth@^0.9.15:
@@ -2802,7 +2797,7 @@ prelude-ls@^1.2.1:
 
 pretty-format@^3.8.0:
   version "3.8.0"
-  resolved "https://registry.npmjs.org/pretty-format/-/pretty-format-3.8.0.tgz"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
   integrity sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==
 
 prop-types@^15.8.1:
