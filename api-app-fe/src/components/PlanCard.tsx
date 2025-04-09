@@ -1,20 +1,35 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
 
 export const PlanCard = () => {
   const [totalUsage, setTotalUsage] = useState(0);
   const [totalLimit, setTotalLimit] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchApiKeys = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        setIsLoading(true);
+        setError(null);
+
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        if (!session) {
+          router.push('/');
+          return;
+        }
 
         const { data, error } = await supabase
           .from('api_keys')
           .select('usage, usage_limit')
-          .eq('user_id', user.id);
+          .eq('user_id', session.user.id);
 
         if (error) throw error;
 
@@ -25,11 +40,35 @@ export const PlanCard = () => {
         setTotalLimit(totalLimit);
       } catch (error) {
         console.error('Error fetching API keys:', error);
+        setError(error instanceof Error ? error.message : 'Failed to fetch API keys');
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchApiKeys();
-  }, []);
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="rounded-xl p-8 bg-gradient-to-r from-rose-200 via-purple-200 to-blue-200">
+        <div className="animate-pulse">
+          <div className="h-4 bg-white/30 rounded w-1/4 mb-4"></div>
+          <div className="h-8 bg-white/30 rounded w-1/2 mb-6"></div>
+          <div className="h-2 bg-white/30 rounded w-full mb-2"></div>
+          <div className="h-2 bg-white/30 rounded w-3/4"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-xl p-8 bg-gradient-to-r from-rose-200 via-purple-200 to-blue-200">
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-xl p-8 bg-gradient-to-r from-rose-200 via-purple-200 to-blue-200">
