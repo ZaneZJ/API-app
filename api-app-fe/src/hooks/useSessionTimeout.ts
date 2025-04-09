@@ -43,7 +43,6 @@ export const useSessionTimeout = () => {
     }
   }, [showWarning, resetTimeout]);
 
-  // Initialize timeout on mount
   useEffect(() => {
     console.log('Setting up session timeout listeners');
     // Initial setup
