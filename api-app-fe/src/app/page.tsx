@@ -267,13 +267,14 @@ export default function Home() {
             ) : (
               <>
                 <button
-                  onClick={() => signIn()}
-                  className="px-6 py-2.5 bg-white/70 backdrop-blur-sm border border-gray-200 text-gray-700 rounded-xl hover:bg-white transition-all duration-300"
+                  onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+                  className="group px-6 py-2.5 bg-white/70 backdrop-blur-sm border border-gray-200 text-gray-700 rounded-xl hover:bg-white transition-all duration-300 flex items-center gap-2 hover:scale-105 hover:shadow-lg"
                 >
                   Log In
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
                 </button>
                 <button
-                  onClick={() => signIn('google')}
+                  onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
                   className="px-6 py-2.5 bg-gradient-to-r from-rose-400 to-purple-500 text-white rounded-xl hover:opacity-90 transition-all duration-300 hover:shadow-xl hover:shadow-purple-200/30 hover:scale-105"
                 >
                   Sign Up Free
