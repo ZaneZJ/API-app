@@ -3,18 +3,24 @@ import { getToken } from 'next-auth/jwt';
 import type { NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request });
+  const token = await getToken({ 
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET
+  });
+  
   const isAuthPage = request.nextUrl.pathname.startsWith('/auth');
   const isPublicPage = request.nextUrl.pathname === '/';
+  const isApiRoute = request.nextUrl.pathname.startsWith('/api');
 
-  // Allow public pages and auth pages
-  if (isPublicPage || isAuthPage) {
+  // Allow public pages, auth pages, and API routes
+  if (isPublicPage || isAuthPage || isApiRoute) {
     return NextResponse.next();
   }
 
   // Redirect to login if not authenticated
   if (!token) {
     const loginUrl = new URL('/auth/signin', request.url);
+    loginUrl.searchParams.set('callbackUrl', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -29,10 +35,9 @@ export const config = {
      * 1. / (home page)
      * 2. /auth/* (auth pages)
      * 3. /_next/* (Next.js internals)
-     * 4. /api/auth/* (auth API routes)
-     * 5. /api/github-summarizer (GitHub summarizer API)
-     * 6. /images, /icons, etc. (static files)
+     * 4. /api/* (API routes)
+     * 5. /images, /icons, etc. (static files)
      */
-    '/((?!api/auth|api/github-summarizer|_next|images|icons|auth|$).*)',
+    '/((?!api|_next|images|icons|auth|$).*)',
   ],
 }; 
