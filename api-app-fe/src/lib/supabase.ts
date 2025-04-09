@@ -1,18 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-  throw new Error('Missing env.NEXT_PUBLIC_SUPABASE_URL');
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl) {
+  console.error('Missing env.NEXT_PUBLIC_SUPABASE_URL');
 }
-if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-  throw new Error('Missing env.NEXT_PUBLIC_SUPABASE_ANON_KEY');
+if (!supabaseAnonKey) {
+  console.error('Missing env.NEXT_PUBLIC_SUPABASE_ANON_KEY');
 }
 
 export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  supabaseUrl || '',
+  supabaseAnonKey || '',
   {
     auth: {
-      persistSession: true
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true
     }
   }
 );
@@ -40,7 +45,6 @@ export async function validateApiKey(apiKey: string): Promise<boolean> {
     if (response.status === 200) {
       return true;
     }
-
     return false;
   } catch (error) {
     console.error('Error validating API key:', error);
